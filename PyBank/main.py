@@ -12,28 +12,11 @@
 # Import modules
 import os, csv, datetime
 
-# fileNames = ["budget_data_1.csv","budget_data_2.csv"]
-#
-# # Create list of files to be combined
-# allFiles = []
-#
-# # Set path for file
-# n = 1
-# for item in fileNames:
-#     allFiles.append[os.path.join("raw_data",fileNames)]
-#     n += 1
-#
-#
-#
-# # Declare list variables
-# month = []
-# revenue = []
-
-# Set path for file
-bankDataCvsPath1 = os.path.join("raw_data","budget_data_2.csv")
+# Set path for current files
+bankDataCvsPath1 = os.path.join("raw_data","budget_data_1.csv")
 bankDataCvsPath2 = os.path.join("raw_data","budget_data_2.csv")
 
-# Create list of files to be combined
+# Create list of current files to be combined
 allFiles = [bankDataCvsPath1,bankDataCvsPath2]
 
 # Declare list variables
@@ -82,9 +65,39 @@ def combineFiles (dataFile):
                 month.append(dateObject)
                 revenue.append(int(row[1]))
 
-# Combine data files
-for item in allFiles:
-    combineFiles(item)
+# Find out which files to analyze
+userInput = input("Would you like to use the (c)urrent files or (n)ew files? ")
+newFiles = []
+response = True
+
+# Figure out what data user wants the use
+while response:
+
+    # If user wants the current given data
+    if userInput == "c":
+
+        # Combine data files
+        for item in allFiles:
+            combineFiles(item)
+
+        response = False
+
+    # If the user wants to input new data
+    elif userInput == "n":
+        nFiles = int(input("How many files would you like to analyze? ")) #how many files to account for
+
+        print("Please put your files in the PyBank/raw_data folder")
+
+        for f in range(0,nFiles): #for each file a user wants
+            fileName = input("What is your file name (make sure to include the extension e.g. .csv): ")
+            combineFiles(os.path.join("raw_data",fileName)) #add data to lists
+
+        response = False
+
+    # If neither c or n is entered, ask again
+    else:
+        print("Sorry, that was not a valid choice")
+        userInput = input("Would you like to use the (c)urrent files or (n)ew files? ")
 
 # Zip and Sort Date / Revenue lists
 sortedValues = sorted(zip(month,revenue))
@@ -175,6 +188,7 @@ while n < nMonths:
 revDeltAvg = revDeltTot / (nMonths-1) #account for 1 less divisor
 
 # Print Results
+print("--------------------------")
 print("Financial Results")
 print("--------------------------")
 print("Total Months: " + str(nMonths))
@@ -192,13 +206,4 @@ f.write("Financial Results"
 "\nGreatest Increase in Revenue: " + revInc[0].strftime("%b-%y ") + "($" + str(revInc[1]) + ")" +
 "\nGreatest Decrease in Revenue: " + revDec[0].strftime("%b-%y ") + "($" + str(revDec[1]) + ")"
 )
-
-
 f.close()
-
-
-# sortedCSV = os.path.join("raw_data","combined-sorted-data.csv")
-#
-# with open(sortedCSV, "w", newline="") as datafile:
-#     writer = csv.writer(datafile)
-#     writer.writerows(sortedValues)
