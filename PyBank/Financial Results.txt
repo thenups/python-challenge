@@ -2,5 +2,6 @@ Financial Results
 --------------------------
 Total Months: 86
 Total Revenue: $55945323
-Greatest Increase in Revenue: Oct-12 ($2211086)
-Greatest Decrease in Revenue: Sep-10 ($-1063151)
+Average Revenue Change: $4443
+Greatest Increase in Revenue: Sep-14 ($2214907)
+Greatest Decrease in Revenue: Aug-14 ($-2293129)

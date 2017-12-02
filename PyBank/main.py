@@ -158,11 +158,13 @@ nMonths = len(sortedValues)
 
 # Create variables for final output
 revDeltTot = 0
-revInc = sortedValues[0] #greatest increase in revenue (date and amount) over the entire period
-revDec = sortedValues[0] #greatest decrease in revenue (date and amount) over the entire period
 
 # Set counter
 n = 0
+revIncDate = 0 #greatest increase in revenue over the entire period
+revDecDate = 0 #greatest decrease in revenue over the entire period
+current_max = sortedValues[n][1] - sortedValues[n-1][1]
+current_min = sortedValues[n][1] - sortedValues[n-1][1]
 
 # Make all final calculations
 while n < nMonths:
@@ -170,18 +172,22 @@ while n < nMonths:
     # Calculate total amount of revenue gained over the entire period
     totalRev = totalRev + sortedValues[n][1]
 
+
+
     # Calculate change MoM and add to a total variable
     if n > 0:
         delt = sortedValues[n][1] - sortedValues[n-1][1]
         revDeltTot = revDeltTot + delt
 
-    # Calculate greatest revenue incerase
-    if sortedValues[n][1] > revInc[1]:
-        revInc = sortedValues[n]
-    # Calculate greatest revenue decrease
-    elif sortedValues[n][1] < revDec[1]:
-        revDec = sortedValues[n]
+        # Calculate greatest revenue incerase
+        if delt > current_max:
+            current_max = delt
+            revIncDate = sortedValues[n][0]
 
+        # Calculate greatest revenue decrease
+        elif delt < current_min:
+            current_min = delt
+            revDecDate = sortedValues[n][0]
     n += 1
 
 # The average change in revenue between months over the entire period
@@ -194,8 +200,8 @@ print("--------------------------")
 print("Total Months: " + str(nMonths))
 print("Total Revenue: $" + str(totalRev))
 print("Average Revenue Change: $" + str(int(revDeltAvg)))
-print("Greatest Increase in Revenue: " + revInc[0].strftime("%b-%y ") + "($" + str(revInc[1]) + ")")
-print("Greatest Decrease in Revenue: " + revDec[0].strftime("%b-%y ") + "($" + str(revDec[1]) + ")")
+print("Greatest Increase in Revenue: " + revIncDate.strftime("%b-%y ") + "($" + str(current_max) + ")")
+print("Greatest Decrease in Revenue: " + revDecDate.strftime("%b-%y ") + "($" + str(current_min) + ")")
 
 # Save file with results
 f = open("Financial Results.txt","w")
@@ -203,7 +209,8 @@ f.write("Financial Results"
 "\n--------------------------"
 "\nTotal Months: " + str(nMonths) +
 "\nTotal Revenue: $" + str(totalRev) +
-"\nGreatest Increase in Revenue: " + revInc[0].strftime("%b-%y ") + "($" + str(revInc[1]) + ")" +
-"\nGreatest Decrease in Revenue: " + revDec[0].strftime("%b-%y ") + "($" + str(revDec[1]) + ")"
+"\nAverage Revenue Change: $" + str(int(revDeltAvg)) +
+"\nGreatest Increase in Revenue: " + revIncDate.strftime("%b-%y ") + "($" + str(current_max) + ")" +
+"\nGreatest Decrease in Revenue: " + revDecDate.strftime("%b-%y ") + "($" + str(current_min) + ")"
 )
 f.close()
