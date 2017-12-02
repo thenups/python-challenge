@@ -140,10 +140,13 @@ while i < l:
                     i -= 1
                     l -= 1
 
+            # If the following month is a duplicate value
             else:
 
+                # Store the new combined value
                 sortedValues[i] = (sortedValues[i][0],monthTotal)
 
+                # Delete the previous list item
                 del(sortedValues[i-1])
 
         # What to do if the next value is NOT a duplicate
@@ -151,6 +154,7 @@ while i < l:
             # Don't loop to add rev values
             duplicateValues = False
 
+    # Move to the next list item
     i += 1
 
 # Calculate total number of months included in the dataset
@@ -159,7 +163,7 @@ nMonths = len(sortedValues)
 # Create variables for final output
 revDeltTot = 0
 
-# Set counter
+# Set counters
 n = 0
 revIncDate = 0 #greatest increase in revenue over the entire period
 revDecDate = 0 #greatest decrease in revenue over the entire period
