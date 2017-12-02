@@ -50,7 +50,7 @@ def combineFiles (dataFile):
             # Skips the header - looks at value in second column and searches for number
             if isNumber(row[1]):
 
-
+                # Tries different date formats
                 for formats in dateFormats:
 
                     # Convert all dates into date format so it's easy to compare them
